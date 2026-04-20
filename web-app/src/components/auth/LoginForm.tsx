@@ -32,6 +32,24 @@ export default function LoginForm() {
     }
   };
 
+  const handleForgotPassword = async () => {
+    if (!email.trim()) {
+      setError('Please enter your email address first.');
+      return;
+    }
+    setIsLoading(true);
+    const { error } = await supabase.auth.resetPasswordForEmail(email, {
+      redirectTo: `${window.location.origin}/login`,
+    });
+    if (error) {
+      setError(error.message);
+    } else {
+      setError(null);
+      alert('Password reset link sent! Check your email.');
+    }
+    setIsLoading(false);
+  };
+
   return (
     <motion.div 
       initial={{ opacity: 0, y: 20 }}
@@ -42,7 +60,7 @@ export default function LoginForm() {
       
       <div className="mb-8 items-center flex flex-col">
         <h1 className="text-3xl font-bold gradient-text">Welcome Back</h1>
-        <p className="text-muted-foreground mt-2">Log in to your campus account</p>
+        <p className="text-muted-foreground mt-2">Log in to your Swastik account</p>
       </div>
 
       <form onSubmit={handleLogin} className="space-y-5">
@@ -53,7 +71,7 @@ export default function LoginForm() {
             <input
               type="email"
               required
-              placeholder="you@university.edu"
+              placeholder="you@gla.ac.in"
               className="w-full bg-background/50 border border-border rounded-xl py-3 pl-10 pr-4 focus:ring-2 focus:ring-primary/50 outline-none transition-all"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
@@ -64,9 +82,13 @@ export default function LoginForm() {
         <div className="space-y-2">
           <div className="flex justify-between items-center ml-1">
             <label className="text-sm font-medium">Password</label>
-            <Link href="/forgot-password" className="text-xs text-primary hover:underline">
+            <button
+              type="button"
+              onClick={handleForgotPassword}
+              className="text-xs text-primary hover:underline"
+            >
               Forgot?
-            </Link>
+            </button>
           </div>
           <div className="relative">
             <Lock className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-foreground" />

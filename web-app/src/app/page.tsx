@@ -15,7 +15,7 @@ export default function Home() {
           <div className="w-10 h-10 bg-primary rounded-xl flex items-center justify-center shadow-lg shadow-primary/20">
             <GraduationCap className="text-white w-6 h-6" />
           </div>
-          <span className="text-2xl font-bold tracking-tight">Campus</span>
+          <span className="text-2xl font-bold tracking-tight">Swastik</span>
         </div>
         <div className="flex items-center gap-4">
           <Link href="/login" className="text-sm font-medium hover:text-primary transition-colors">Log In</Link>
@@ -77,7 +77,7 @@ export default function Home() {
           <Link href="#" className="hover:text-foreground transition-colors">Contact</Link>
           <Link href="#" className="hover:text-foreground transition-colors">Instagram</Link>
         </div>
-        <p className="text-xs text-muted-foreground opacity-50">© 2026 Campus Network. All rights reserved.</p>
+        <p className="text-xs text-muted-foreground opacity-50">© 2026 Swastik. All rights reserved.</p>
       </footer>
     </div>
   );

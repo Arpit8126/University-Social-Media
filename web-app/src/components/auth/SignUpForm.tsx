@@ -3,13 +3,15 @@
 import { useState, useEffect } from 'react';
 import { supabase } from '@/lib/supabase';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Mail, Lock, User, GraduationCap, CheckCircle2, AlertCircle, Loader2, ArrowRight } from 'lucide-react';
+import { Mail, Lock, User, GraduationCap, CheckCircle2, AlertCircle, Loader2, ArrowRight, AtSign, XCircle } from 'lucide-react';
 import Link from 'next/link';
 
 export default function SignUpForm() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [fullName, setFullName] = useState('');
+  const [username, setUsername] = useState('');
+  const [usernameStatus, setUsernameStatus] = useState<'idle' | 'checking' | 'available' | 'taken'>('idle');
   const [university, setUniversity] = useState<{ id: string; name: string } | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const [isCheckingDomain, setIsCheckingDomain] = useState(false);
@@ -27,7 +29,6 @@ export default function SignUpForm() {
       }
 
       setIsCheckingDomain(true);
-      console.log('Checking domain:', domain); // Cache debug
 
       const { data, error } = await supabase
         .from('universities')
@@ -53,10 +54,48 @@ export default function SignUpForm() {
     return () => clearTimeout(timer);
   }, [email]);
 
+  // Real-time username uniqueness check
+  useEffect(() => {
+    const checkUsername = async () => {
+      const trimmed = username.trim().toLowerCase();
+      if (!trimmed || trimmed.length < 3) {
+        setUsernameStatus('idle');
+        return;
+      }
+
+      setUsernameStatus('checking');
+
+      const { data, error } = await supabase
+        .from('profiles')
+        .select('id')
+        .eq('username', trimmed)
+        .maybeSingle();
+
+      if (error) {
+        console.error('Username check error:', error);
+        setUsernameStatus('idle');
+        return;
+      }
+
+      setUsernameStatus(data ? 'taken' : 'available');
+    };
+
+    const timer = setTimeout(checkUsername, 400);
+    return () => clearTimeout(timer);
+  }, [username]);
+
   const handleSignUp = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!university) {
       setMessage({ type: 'error', text: 'Please use a valid university email address.' });
+      return;
+    }
+    if (usernameStatus === 'taken') {
+      setMessage({ type: 'error', text: 'This username is already taken.' });
+      return;
+    }
+    if (username.trim().length < 3) {
+      setMessage({ type: 'error', text: 'Username must be at least 3 characters.' });
       return;
     }
 
@@ -69,6 +108,7 @@ export default function SignUpForm() {
       options: {
         data: {
           full_name: fullName,
+          username: username.trim().toLowerCase(),
           university_id: university.id,
         },
       },
@@ -98,7 +138,7 @@ export default function SignUpForm() {
         <h2 className="text-2xl font-bold mb-4">Check your Inbox</h2>
         <p className="text-muted-foreground mb-8">
           We&apos;ve sent a verification link to <span className="text-foreground font-medium">{email}</span>. 
-          Please click it to activate your campus account.
+          Please click it to activate your Swastik account.
         </p>
         <Link 
           href="/"
@@ -119,7 +159,7 @@ export default function SignUpForm() {
       <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-purple-500 to-blue-500" />
       
       <div className="mb-8 items-center flex flex-col">
-        <h1 className="text-3xl font-bold gradient-text">Join Campus</h1>
+        <h1 className="text-3xl font-bold gradient-text">Join Swastik</h1>
         <p className="text-muted-foreground mt-2">Verified university students only</p>
       </div>
 
@@ -131,12 +171,50 @@ export default function SignUpForm() {
             <input
               type="text"
               required
-              placeholder="Arpit Pandey"
+              placeholder="Your Full Name"
               className="w-full bg-background/50 border border-border rounded-xl py-3 pl-10 pr-4 focus:ring-2 focus:ring-primary/50 outline-none transition-all"
               value={fullName}
               onChange={(e) => setFullName(e.target.value)}
             />
           </div>
+        </div>
+
+        <div className="space-y-2">
+          <label className="text-sm font-medium ml-1">Username</label>
+          <div className="relative">
+            <AtSign className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-foreground" />
+            <input
+              type="text"
+              required
+              minLength={3}
+              maxLength={30}
+              placeholder="choose_a_username"
+              className={`w-full bg-background/50 border rounded-xl py-3 pl-10 pr-10 focus:ring-2 outline-none transition-all ${
+                usernameStatus === 'available' ? 'border-green-500/50 focus:ring-green-500/30' :
+                usernameStatus === 'taken' ? 'border-red-500/50 focus:ring-red-500/30' :
+                'border-border focus:ring-primary/50'
+              }`}
+              value={username}
+              onChange={(e) => setUsername(e.target.value.replace(/[^a-zA-Z0-9_]/g, '').toLowerCase())}
+            />
+            <div className="absolute right-3 top-1/2 -translate-y-1/2">
+              {usernameStatus === 'checking' && <Loader2 className="w-4 h-4 animate-spin text-primary" />}
+              {usernameStatus === 'available' && <CheckCircle2 className="w-5 h-5 text-green-500" />}
+              {usernameStatus === 'taken' && <XCircle className="w-5 h-5 text-red-500" />}
+            </div>
+          </div>
+          <AnimatePresence>
+            {usernameStatus === 'available' && (
+              <motion.p initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="text-xs text-green-500 ml-1">
+                @{username} is available!
+              </motion.p>
+            )}
+            {usernameStatus === 'taken' && (
+              <motion.p initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="text-xs text-red-500 ml-1">
+                @{username} is already taken
+              </motion.p>
+            )}
+          </AnimatePresence>
         </div>
 
         <div className="space-y-2">
@@ -146,7 +224,7 @@ export default function SignUpForm() {
             <input
               type="email"
               required
-              placeholder="you@university.edu"
+              placeholder="you@gla.ac.in"
               className={`w-full bg-background/50 border rounded-xl py-3 pl-10 pr-4 focus:ring-2 outline-none transition-all ${
                 university ? 'border-green-500/50 focus:ring-green-500/30' : 'border-border focus:ring-primary/50'
               }`}
@@ -205,14 +283,14 @@ export default function SignUpForm() {
 
         <button
           type="submit"
-          disabled={isLoading || !university}
+          disabled={isLoading || !university || usernameStatus === 'taken' || usernameStatus === 'checking'}
           className="w-full bg-primary hover:bg-primary/90 disabled:opacity-50 disabled:cursor-not-allowed text-white font-semibold py-3 rounded-xl transition-all flex items-center justify-center gap-2 group shadow-lg shadow-primary/20"
         >
           {isLoading ? (
             <Loader2 className="w-5 h-5 animate-spin" />
           ) : (
             <>
-              Verify Identity
+              Create Account
               <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
             </>
           )}

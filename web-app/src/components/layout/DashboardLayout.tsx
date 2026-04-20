@@ -1,9 +1,10 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect } from 'react';
 import Link from 'next/link';
-import { usePathname } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
 import { motion } from 'framer-motion';
+import { useAuth } from '@/lib/AuthContext';
 import { 
   LayoutDashboard, 
   Users, 
@@ -13,7 +14,11 @@ import {
   Bell, 
   LogOut,
   Search,
-  GraduationCap
+  GraduationCap,
+  BarChart4,
+  Shuffle,
+  User,
+  Loader2
 } from 'lucide-react';
 
 const navItems = [
@@ -22,7 +27,10 @@ const navItems = [
   { icon: MessageSquare, label: 'Messages', href: '/dashboard/messages' },
   { icon: Shield, label: 'Anonymous', href: '/dashboard/anonymous' },
   { icon: FolderOpen, label: 'Resources', href: '/dashboard/resources' },
+  { icon: BarChart4, label: 'Polls', href: '/dashboard/polls' },
+  { icon: Shuffle, label: 'Random Chat', href: '/dashboard/random-chat' },
   { icon: Bell, label: 'Notifications', href: '/dashboard/notifications' },
+  { icon: User, label: 'Profile', href: '/dashboard/profile' },
 ];
 
 export default function DashboardLayout({
@@ -32,6 +40,36 @@ export default function DashboardLayout({
 }) {
   const isSidebarOpen = true;
   const pathname = usePathname();
+  const router = useRouter();
+  const { user, profile, isLoading, signOut } = useAuth();
+
+  // Auth guard - redirect to login if not authenticated
+  useEffect(() => {
+    if (!isLoading && !user) {
+      router.push('/login');
+    }
+  }, [user, isLoading, router]);
+
+  const handleLogout = async () => {
+    await signOut();
+    router.push('/login');
+  };
+
+  // Show loading state while checking auth
+  if (isLoading) {
+    return (
+      <div className="flex h-screen bg-[#020617] items-center justify-center">
+        <Loader2 className="w-8 h-8 animate-spin text-primary" />
+      </div>
+    );
+  }
+
+  // Don't render dashboard if not authenticated
+  if (!user) return null;
+
+  const displayName = profile?.full_name || 'Student';
+  const universityName = profile?.universities?.name || 'University';
+  const userInitial = displayName[0]?.toUpperCase() || 'S';
 
   return (
     <div className="flex h-screen bg-[#020617] text-foreground overflow-hidden">
@@ -52,7 +90,7 @@ export default function DashboardLayout({
                 animate={{ opacity: 1 }}
                 className="text-xl font-bold tracking-tight"
               >
-                Campus
+                Swastik
               </motion.span>
             )}
           </Link>
@@ -94,6 +132,7 @@ export default function DashboardLayout({
 
         <div className="p-4 border-t border-white/5">
           <button 
+            onClick={handleLogout}
             className="flex items-center gap-4 px-4 py-3 rounded-xl text-muted-foreground hover:bg-destructive/10 hover:text-destructive transition-all w-full group"
           >
             <LogOut className="w-5 h-5 group-hover:scale-110 transition-transform" />
@@ -114,27 +153,35 @@ export default function DashboardLayout({
               <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
               <input 
                 type="text" 
-                placeholder="Search campus, groups, or notes..."
+                placeholder="Search users, groups, or notes..."
                 className="w-full bg-white/5 border border-white/10 rounded-xl py-2.5 pl-10 pr-4 focus:ring-2 focus:ring-primary/50 outline-none transition-all text-sm"
               />
             </div>
           </div>
 
           <div className="flex items-center gap-4">
-            <button className="p-2.5 rounded-xl bg-white/5 hover:bg-white/10 text-muted-foreground transition-all relative group">
+            <Link href="/dashboard/notifications" className="p-2.5 rounded-xl bg-white/5 hover:bg-white/10 text-muted-foreground transition-all relative group">
               <Bell className="w-5 h-5 group-hover:rotate-12 transition-transform" />
               <span className="absolute top-2 right-2 w-2 h-2 bg-primary rounded-full shadow-[0_0_8px_rgba(168,85,247,0.5)]" />
-            </button>
+            </Link>
             <div className="h-8 w-px bg-white/10 mx-2" />
-            <button className="flex items-center gap-3 p-1 pr-3 rounded-xl hover:bg-white/5 transition-all group">
-              <div className="w-9 h-9 rounded-lg bg-gradient-to-br from-primary to-blue-600 flex items-center justify-center text-white font-bold group-hover:scale-105 transition-transform">
-                A
-              </div>
+            <Link href="/dashboard/profile" className="flex items-center gap-3 p-1 pr-3 rounded-xl hover:bg-white/5 transition-all group">
+              {profile?.avatar_url ? (
+                <img 
+                  src={profile.avatar_url} 
+                  alt={displayName} 
+                  className="w-9 h-9 rounded-lg object-cover group-hover:scale-105 transition-transform"
+                />
+              ) : (
+                <div className="w-9 h-9 rounded-lg bg-gradient-to-br from-primary to-blue-600 flex items-center justify-center text-white font-bold group-hover:scale-105 transition-transform">
+                  {userInitial}
+                </div>
+              )}
               <div className="hidden sm:block text-left">
-                <p className="text-sm font-semibold leading-tight">Arpit Pandey</p>
-                <p className="text-[10px] text-muted-foreground leading-tight uppercase font-bold tracking-wider">GLA University</p>
+                <p className="text-sm font-semibold leading-tight">{displayName}</p>
+                <p className="text-[10px] text-muted-foreground leading-tight uppercase font-bold tracking-wider">{universityName}</p>
               </div>
-            </button>
+            </Link>
           </div>
         </header>
 

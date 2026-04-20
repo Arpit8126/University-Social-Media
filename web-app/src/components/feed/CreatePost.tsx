@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import { supabase } from '@/lib/supabase';
+import { useAuth } from '@/lib/AuthContext';
 import { motion, AnimatePresence } from 'framer-motion';
 import { 
   Image as ImageIcon, 
@@ -14,23 +15,29 @@ import {
 } from 'lucide-react';
 
 export default function CreatePost() {
+  const { profile } = useAuth();
   const [content, setContent] = useState('');
   const [isPublic, setIsPublic] = useState(true);
   const [image, setImage] = useState<File | null>(null);
+  const [mediaType, setMediaType] = useState<'image' | 'video' | null>(null);
   const [preview, setPreview] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(false);
+
+  const userInitial = profile?.full_name?.[0]?.toUpperCase() || 'S';
 
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files?.[0]) {
       const file = e.target.files[0];
       setImage(file);
       setPreview(URL.createObjectURL(file));
+      setMediaType(file.type.startsWith('video/') ? 'video' : 'image');
     }
   };
 
   const removeImage = () => {
     setImage(null);
     setPreview(null);
+    setMediaType(null);
   };
 
   const handlePost = async () => {
@@ -43,7 +50,7 @@ export default function CreatePost() {
       // 1. Handle Image Upload
       if (image) {
         const fileExt = image.name.split('.').pop();
-        const fileName = `${Math.random()}.${fileExt}`;
+        const fileName = `${Date.now()}_${Math.random().toString(36).slice(2)}.${fileExt}`;
         const filePath = `posts/${fileName}`;
 
         const { error: uploadError } = await supabase.storage
@@ -65,6 +72,7 @@ export default function CreatePost() {
         .insert({
           content,
           media_url: mediaUrl,
+          media_type: mediaType,
           visibility: isPublic ? 'PUBLIC' : 'PRIVATE',
         });
 
@@ -87,9 +95,13 @@ export default function CreatePost() {
       className="glass-panel p-6 rounded-2xl mb-8 relative overflow-hidden"
     >
       <div className="flex gap-4">
-        <div className="w-10 h-10 rounded-lg bg-primary/20 flex-shrink-0 flex items-center justify-center font-bold text-primary">
-          A
-        </div>
+        {profile?.avatar_url ? (
+          <img src={profile.avatar_url} alt="" className="w-10 h-10 rounded-lg object-cover flex-shrink-0" />
+        ) : (
+          <div className="w-10 h-10 rounded-lg bg-primary/20 flex-shrink-0 flex items-center justify-center font-bold text-primary">
+            {userInitial}
+          </div>
+        )}
         <div className="flex-1 space-y-4">
           <textarea
             placeholder="Share something with your campus..."
@@ -106,7 +118,11 @@ export default function CreatePost() {
                 exit={{ opacity: 0, scale: 0.9 }}
                 className="relative rounded-xl overflow-hidden max-h-[300px] bg-black/20 flex justify-center"
               >
-                <img src={preview} alt="Upload preview" className="max-h-[300px] object-contain" />
+                {mediaType === 'video' ? (
+                  <video src={preview} controls className="max-h-[300px] object-contain" />
+                ) : (
+                  <img src={preview} alt="Upload preview" className="max-h-[300px] object-contain" />
+                )}
                 <button 
                   onClick={removeImage}
                   className="absolute top-2 right-2 p-1.5 rounded-full bg-black/60 text-white hover:bg-black/80 transition-colors"
@@ -120,7 +136,7 @@ export default function CreatePost() {
           <div className="flex items-center justify-between border-t border-white/5 pt-4">
             <div className="flex items-center gap-2">
               <label className="p-2.5 rounded-xl hover:bg-white/5 text-muted-foreground hover:text-primary transition-all cursor-pointer group">
-                <input type="file" className="hidden" accept="image/*" onChange={handleImageChange} />
+                <input type="file" className="hidden" accept="image/*,video/*" onChange={handleImageChange} />
                 <ImageIcon className="w-5 h-5 group-hover:scale-110 transition-transform" />
               </label>
               <button className="p-2.5 rounded-xl hover:bg-white/5 text-muted-foreground hover:text-primary transition-all group">

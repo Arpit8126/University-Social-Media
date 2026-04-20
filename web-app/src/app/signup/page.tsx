@@ -20,7 +20,7 @@ export default function SignUpPage() {
 
       {/* Footer / Branding */}
       <div className="absolute bottom-8 left-1/2 -translate-x-1/2 text-muted-foreground text-xs flex items-center gap-4">
-        <span>© 2026 Campus Network</span>
+        <span>© 2026 Swastik</span>
         <div className="w-1 h-1 bg-muted-foreground/30 rounded-full" />
         <span>Privacy Policy</span>
         <div className="w-1 h-1 bg-muted-foreground/30 rounded-full" />

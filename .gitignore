@@ -6,7 +6,7 @@ web-app/node_modules/
 web-app/.env*
 
 # DB and Security
-security_lock.sql
+*.sql
 
 # AI/Agent local storage
 .gemini/
