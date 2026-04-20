@@ -1,11 +1,7 @@
 import type { NextConfig } from "next";
 
-import path from "path";
-
 const nextConfig: NextConfig = {
-  turbopack: {
-    root: path.join(process.cwd()),
-  },
+  /* config options here */
 };
 
 export default nextConfig;
