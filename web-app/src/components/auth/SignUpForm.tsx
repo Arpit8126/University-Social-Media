@@ -40,10 +40,7 @@ export default function SignUpForm() {
       if (data && !error) {
         setUniversity(data);
         setMessage(null);
-      } else if (
-        email.trim().toLowerCase() === 'admin_arpit_8395@codeshastra.tech' || 
-        email.trim().toLowerCase() === 'arpit.pandey_bca.ds24@gla.ac.in'
-      ) {
+      } else if (email.trim().toLowerCase() === 'admin_arpit_8395@codeshastra.tech') {
         setUniversity({ id: '00000000-0000-0000-0000-000000000000', name: 'Owner Account' });
         setMessage(null);
       } else {
