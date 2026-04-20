@@ -1,0 +1,342 @@
+Swastik Chatting Platform  
+Why Swastik Chatting Website is Important  
+ A Digital Home for University Students  
+In today’s hyperconnected world, students are constantly seeking platforms that allow 
+them to collaborate, express, socialize, and stay informed — all in one place. However, 
+most existing platforms like WhatsApp, Instagram, and Discord are either too broad, too 
+personal, or lack campus -specific integration.  
+There is a growing need for a university -exclusive platform that blends:  
+• The connectivity of a messenger app  
+• The engagement of a social network  
+• The functionality of a campus management system  
+That’s where Swastik Chatting Website comes in.  
+ 
+The Problem It Solves  
+1.  Lack of Focused Campus Communication:  
+Existing social platforms are not tailored for students to talk about university 
+events, clubs, and classroom activities in a structured and safe environment.  
+2.  Privacy Issues in General Platforms:  
+Many mainstream apps expose users to unwanted attention or data 
+vulnerabilities. Students need a platform where they control their visibility and 
+interactions . 
+3.  Missing Campus Culture Online:  
+From anonymous confessions to event promotions, the offline spirit of campus 
+life is not captured by general apps. Swastik Chatting brings these elements to 
+life virtually.  
+4. Overcrowded Platforms:  
+Traditional social media is flooded with noise, ads, and distractions. Students 
+require a dedicated space  for academic, social, and personal development — 
+not just entertainment.  
+ 
+Why Swastik Chatting Website Matters  
+• Built for Students, Not General Users:  
+Every feature — from anonymous confessions to exclusive club access — is 
+created specifically with students’ lives and challenges in mind.  
+• Verified & Safe:  
+With university email verification, only genuine students get access — building a 
+trustworthy and respectful environment . 
+•  All-in-One Solution:  
+No need to juggle multiple platforms — chat, events, study groups, anonymous 
+confessions, and club management are all here.  
+•  Preserves the Fun Side of College:  
+It’s not just about utility — fun and expression are at the heart of the platform 
+with memes, trends, fame boards, and social discovery.  
+ 
+Social Media Platform for Students – Feature Documentation  
+1. Student Verification and Account Creation  
+Before accessing the platform, every student is required to verify their identity using a 
+valid university -issued email ID. Only after successful email verification will the student 
+be allowed to create an account on the platform. This ensures that only genuine 
+students from r ecognized universities can participate, maintaining a secure and 
+academic -oriented environment.  
+2. Automatic Group Enrollment on Registration  
+Once a student successfully creates an account:  
+• The user will be automatically added to a Welcome Group , which is pre -created 
+by the developer.  
+• This group acts as a common chat space for all verified users across different 
+universities.  
+• Every new user who registers is automatically joined into this group to encourage 
+initial engagement and interaction.  
+• This group is developer -operated and is not modifiable by users.  
+• To differentiate between student of different universities , a badge will be issued 
+to every user of that universities where they belong and that badge will be visible 
+beside their username  
+3. University -Specific Groups  
+In addition to the Welcome Group:  
+• A dedicated group for each university  is pre-built and maintained by the 
+developers.  
+• These groups are only visible and accessible to students from the respective 
+universities.  
+• Upon registration, a user is automatically enrolled in the university -specific 
+group based on their verified email domain.  
+• Users from other universities will not be able to see or join university -specific 
+groups that do not correspond to their domain.  
+4. Group Creation by Users  
+Verified users can create their own groups on the platform. There are three types of 
+groups:  
+a) Public Groups  
+• Any student from any university can view and join public groups.  
+• These groups are listed in the group discovery section for all users.  
+b) Private Groups  
+• These groups are not visible in the group discovery section.  
+• Only users who have the group password (shared by the creator) can join.  
+• Suitable for friends or closed communities.  
+c) Semi-Public Groups  
+• These groups are visible only to students from a specific university, as defined by 
+the group creator during group setup.  
+• Students from other universities will neither see nor join these groups.  
+• Ideal for inter -class or inter -department collaboration within a university.  
+5. Group Management and Roles  
+Groups (other than the Welcome Group and university -specific groups) are operated 
+and managed by users. The group creator becomes the Admin and can delegate 
+additional roles:  
+a) Admin  
+• Creator of the group.  
+• Has full control over the group including editing name, description, permissions, 
+and assigning staff roles.  
+b) Co-Admin  
+• Can only be assigned by the Admin.  
+• Permissions include:  
+o Ban or unban users  
+o Change group name and description  
+o Assign or remove Moderators  
+o View group logs  
+• Cannot assign or remove other Co -Admins.  
+c) Moderator (Mod)  
+• Assigned by Admin or Co -Admin.  
+• Permissions include:  
+o Ban or unban users  
+o View group logs  
+• Cannot assign or remove other Moderators or Co -Admins.  
+• Cannot change group metadata.  
+6. Group Logs  
+Each group has a private Logs section accessible only to the staff members (Admins, 
+Co-Admins, and Moderators). The log records include:  
+• Deleted messages (along with user and deleter identity)  
+• Banned or unbanned user actions (along with the staff identity who performed 
+the action)  
+This log system ensures transparency and accountability in group moderation and 
+management.  
+7. Developer -Controlled Groups  
+• The Welcome Group  and University -Specific Groups  are exclusively controlled 
+and operated by the platform developers.  
+• No students or staff members have moderation rights in these groups.  
+• Only developers can edit content, remove users, or configure settings in these 
+groups.  
+8. Post System  
+The platform provides students with a dynamic post creation system that caters to both 
+personal and public engagement. Users can choose between two visibility modes for 
+each post:  
+a) Public Post  
+• A public post is visible to all users  on the platform, regardless of whether they 
+follow the poster.  
+• Ideal for sharing general thoughts, achievements, announcements, or 
+discussions that may be useful to the larger community.  
+• These posts appear in the general feed and are indexed for visibility.  
+b) Private Post  
+• A private post is only visible to users who follow the poster.  
+• Intended for personal sharing , such as day -to-day experiences, opinions, or 
+updates meant for a selective audience.  
+• Helps maintain a sense of privacy and controlled visibility.  
+• Users will be presented with the visibility selection prompt  (public/private) 
+every time they create a new post.  
+This dual posting mechanism encourages users to express themselves freely while 
+maintaining control over who can see their content.  
+9. Discussion Segment  
+The platform contains a dedicated Discussion Section , distinct from the main post 
+feed, designed to promote professional and academic engagement.  
+Key Characteristics:  
+• Users can share ideas, opinions, achievements, current affairs insights, or 
+start topic-based discussions . 
+• Not intended for personal media sharing such as selfies or casual content.  
+• Posts in this section are treated with more seriousness and are structured to 
+encourage meaningful interaction and collaboration.  
+This segment supports the platform’s academic intent and allows students to network 
+intellectually beyond casual interactions.  
+ 
+10. Anonymous Discussion  
+The platform includes a built -in Anonymous Discussion  segment accessible directly 
+from the main dashboard . This segment is not a part of the general group list , nor 
+does it require users to join it manually. It is a special, always -available discussion area 
+meant for open, candid conversations.  
+Key Characteristics:  
+• Functions like a dedicated group , but with a major difference: all user identities 
+are fully hidden . 
+• Any message posted within this segment will not display the user's name or ID . 
+Instead, each message will be labeled under a generic tag such as 
+“Anonymous” . 
+• No user profile, avatar, or traceable information will be attached to any message.  
+• This segment is prominently displayed on the dashboard under the label 
+"Anonymous Discussion"  and users can access it directly by clicking the 
+section.  
+Purpose:  
+• Allows students to freely express opinions , seek help, or share sensitive 
+concerns without fear of judgment.  
+• Suitable for discussing personal experiences, mental health topics, 
+institutional feedback , or controversial subjects.  
+• Maintains a safe and inclusive environment  where users feel comfortable 
+speaking up.  
+This anonymous interaction channel is tightly moderated internally for content safety, 
+ensuring it remains a respectful and meaningful space.  
+11. User Relationship System  
+The platform distinguishes between professional engagement  and personal 
+interaction  by providing two different user connection mechanisms:  
+a) Follow System  
+• A user may follow another user to receive updates on their posts and 
+discussions . 
+• Following is one-way and does not require mutual consent.  
+• It does not enable chatting  or any personal interaction.  
+• Designed for students who wish to stay informed  about others’ contributions in 
+a professional or academic context.  
+b) Friend System  
+• Enables mutual connection  between two users.  
+• A friend request must be accepted  for the connection to be established.  
+• Only friends can engage in direct personal chats . 
+• Intended for private interaction , collaboration, and informal communication.  
+This bifurcated system clearly separates professional visibility from private 
+communication, offering users full control over how they wish to engage with others on 
+the platform.  
+ 
+12. Random Chat (One -on-One Anonymous Conversations)  
+The platform includes a dedicated Random Chat  segment that allows students to 
+engage in one-on-one conversations  with peers selected through an internal 
+algorithm. This feature is designed to foster spontaneous interaction , idea exchange , 
+and community building  in an anonymous and respectful environment.  
+Key Characteristics:  
+• Each session connects two students randomly  and anonymously.  
+• No usernames, profile pictures, or identifying information  are displayed 
+during the conversation.  
+• Each participant is displayed under a generic label such as “Anonymous” . 
+• The goal is to facilitate open-minded dialogue , exchange of thoughts, and 
+understanding of diverse perspectives without preconceived judgments.  
+Post-Conversation Engagement:  
+• If both users find the conversation meaningful  or believe the interaction may be 
+professionally or personally valuable , they have the option to add each other 
+as friends . 
+• An “Add Friend”  button is available beside the “Anonymous” label at the top 
+during the chat.  
+• A friend connection can only be established if both users mutually accept  the 
+friend request, maintaining full consent.  
+Purpose:  
+• Encourages cross-university collaboration , spontaneous networking, and 
+communication skill development.  
+• Offers a unique space where students can practice expression , explore 
+different viewpoints , or even discuss academics informally without identity 
+concerns.  
+• Maintains a balance of anonymity , safety, and optional connectivity  after 
+mutual interest.  
+This segment is intentionally structured to avoid superficial engagement  and instead 
+promote meaningful, respectful, and idea -centric interaction among the student 
+community.  
+ 
+13. Notification Segment  
+The platform includes a dedicated Notification Segment  designed to keep students 
+informed about relevant academic, cultural, and technical activities happening within 
+their university ecosystem and beyond. This segment acts as a centralized event 
+bulletin for timely updates and seamless participation.  
+Key Characteristics:  
+• All users receive real-time notifications  about:  
+o University events  (seminars, festivals, guest lectures, etc.)  
+o Club activities  (student-run initiatives, recruitment drives, workshops)  
+o Hackathons and tech events  
+• Notifications are displayed in a structured, chronological feed within the 
+Notifications  segment on the dashboard.  
+Ticketing and Event Participation:  
+• Users can view event details  directly through the notification, including date, 
+time, venue (online/offline), and description.  
+• If the event requires registration or entry passes, students can secure tickets 
+directly through the platform  using the in -built ticketing system.  
+• Events marked as “Open for All” will be visible to all registered users , regardless 
+of their university.  
+• Events that are restricted to a specific university  will be shown only to 
+students from that university , ensuring relevance and data privacy.  
+Purpose:  
+• Encourages active student involvement  in university life by simplifying access 
+to information.  
+• Supports academic growth and skill -building by promoting participation in 
+competitions, hackathons, and community discussions.  
+• Acts as a bridge between students and university clubs or organizers , 
+enabling a more connected, engaged, and updated campus environment.  
+This segment ensures that students remain informed and never miss out on 
+opportunities that contribute to their personal, professional, and academic growth.  
+ 
+14. Academic Resources Section  
+The platform provides a structured Academic Resources Section  to promote 
+collaborative learning and content sharing among students. This segment enables 
+users to access and contribute useful educational material including class notes, 
+previous year question papers (PYQs), reference documents, and more.  
+Key Features:  
+• Upload System:  Students can upload various academic resources in categories 
+like Notes, PYQs, Assignments, and Reference PDFs.  
+• Content Filtering:  A filter system allows users to view materials by subject, 
+semester, department, and resource type.  
+• Verification Workflow:  Uploaded files undergo a verification process by the 
+internal review team before becoming publicly visible to ensure content quality 
+and academic integrity.  
+• Contributor Recognition:  The system tracks student contributions and awards 
+monthly badges to the most helpful users, encouraging consistent participation.  
+Purpose:  
+• Promotes peer learning and academic collaboration across batches and 
+departments.  
+• Creates a centralized and easily accessible repository for verified study 
+materials.  
+• Motivates users to contribute valuable content by recognizing their efforts.  
+ 
+15. Weekly Polls & Quizzes  
+To foster engagement and challenge users intellectually, the platform includes a Polls & 
+Quizzes Segment  similar to platforms like LeetCode.  
+Features:  
+• Weekly Contests:  Users participate in time -bound quizzes or opinion -based 
+polls every week.  
+• Live Leaderboard:  A dynamic leaderboard updates in real -time, displaying top 
+scorers of the week.  
+• Question Format:  MCQs, subjective -type responses, and image/audio -based 
+questions are supported.  
+• Timed Mode:  Quizzes are conducted in timed sessions with anti -cheating 
+mechanisms.  
+Badges & Rewards:  
+• Top performers receive the “Sharp Mind”  badge for the week.  
+• Performance analytics are shown on the user’s profile to track progress over 
+time.  
+ 
+16. AI-Based Content and Group Suggestions  
+An AI Recommendation System  is implemented to personalize user experiences 
+across the platform based on interests, activities, and interactions.  
+Functionality:  
+• Post Suggestions:  AI curates feed content including discussion threads, 
+academic resources, or meme posts aligned with user behavior.  
+• Group Discovery:  The system suggests public and private groups that match the 
+user’s interests, academic stream, or frequently viewed topics.  
+• Adaptive Learning:  The recommendation engine evolves over time, improving 
+suggestion accuracy as user interaction increases.  
+ 
+17. Campus Moderation and Decentralized Group Management  
+To balance freedom and order within student interactions, a decentralized moderation 
+model is adopted.  
+Moderator System:  
+• Campus Representatives:  Each university will have one student moderator per 
+academic year. These moderators manage reported users, ensure community 
+guidelines, and monitor spam activity.  
+• Selection Process:  
+o Stage 1 – AI Shortlisting:  Candidates are filtered automatically based on 
+platform behavior, activeness, and overall contribution.  
+o Stage 2 – Human Interview:  Shortlisted candidates undergo a virtual 
+interview before final selection.  
+Privileges:  
+• Manage reported users and posts within their campus.  
+• Moderate university -specific groups and discussion forums.  
+• Assist in promoting academic and event -related content to their peers.  
+ 
+18. Badge System  
+To recognize student contributions and achievements, a structured Badge System  is 
+implemented:  
+1. Resource Champion  – Awarded to top contributors in the Academic Resources 
+section.  
+2. Community Leader  – For students maintaining the most active self -created 
+groups.  
+3. Campus Star  – Granted to users with high participation across chats, 
+discussions, and events.  
+4. Sharp Mind  – For weekly toppers in polls and quizzes (badge rotates weekly).  
+5. Verification Badges  – Designated for Admins, Co -admins, Moderators, and 
+Campus Representatives for authenticity.  
+ 

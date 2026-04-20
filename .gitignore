@@ -1,0 +1,18 @@
+# Main Project .gitignore
+
+# Next.js folders
+web-app/.next/
+web-app/node_modules/
+web-app/.env*
+
+# DB and Security
+security_lock.sql
+
+# AI/Agent local storage
+.gemini/
+.brain/
+.system_generated/
+
+# OS files
+.DS_Store
+Thumbs.db
