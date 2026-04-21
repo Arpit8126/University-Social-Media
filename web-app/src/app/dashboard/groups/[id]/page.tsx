@@ -165,13 +165,18 @@ export default function GroupChatPage({ params }: { params: Promise<{ id: string
     if ((!text && !mediaUrl) || !user) return;
     setInput('');
 
-    await supabase.from('group_messages').insert({
+    const { error } = await supabase.from('group_messages').insert({
       group_id: groupId,
       sender_id: user.id,
       content: text ? text : null,
       media_url: mediaUrl,
       message_type: mediaType
     });
+
+    if (error) {
+      console.error('Message Send Error:', error);
+      alert(`Failed to send message: ${error.message}`);
+    }
   };
 
   const handleMediaUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {

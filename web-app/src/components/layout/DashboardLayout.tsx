@@ -25,6 +25,7 @@ const navItems = [
   { icon: LayoutDashboard, label: 'Feed', href: '/dashboard' },
   { icon: Users, label: 'Groups', href: '/dashboard/groups' },
   { icon: MessageSquare, label: 'Messages', href: '/dashboard/messages' },
+  { icon: Users, label: 'Directory', href: '/dashboard/directory' },
   { icon: Shield, label: 'Anonymous', href: '/dashboard/anonymous' },
   { icon: FolderOpen, label: 'Resources', href: '/dashboard/resources' },
   { icon: BarChart4, label: 'Polls', href: '/dashboard/polls' },
@@ -155,6 +156,11 @@ export default function DashboardLayout({
                 type="text" 
                 placeholder="Search users, groups, or notes..."
                 className="w-full bg-white/5 border border-white/10 rounded-xl py-2.5 pl-10 pr-4 focus:ring-2 focus:ring-primary/50 outline-none transition-all text-sm"
+                onKeyDown={(e) => {
+                  if (e.key === 'Enter' && e.currentTarget.value.trim()) {
+                    router.push(`/dashboard/directory?q=${encodeURIComponent(e.currentTarget.value.trim())}`);
+                  }
+                }}
               />
             </div>
           </div>

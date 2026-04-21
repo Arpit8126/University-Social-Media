@@ -202,13 +202,18 @@ export default function MessagesPage() {
     const text = input.trim();
     setInput('');
 
-    await supabase.from('messages').insert({
+    const { error } = await supabase.from('messages').insert({
       conversation_id: activeConvo.id,
       sender_id: user.id,
       content: text ? text : null,
       media_url: mediaUrl,
       message_type: mediaType
     });
+
+    if (error) {
+      console.error('Message Send Error:', error);
+      alert(`Failed to send message: ${error.message}`);
+    }
   };
 
   const handleMediaUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
