@@ -27,6 +27,7 @@ interface UserPost {
   id: string;
   content: string;
   media_url: string | null;
+  media_type?: string | null;
   visibility: 'PUBLIC' | 'PRIVATE';
   user_id: string;
   likes_count: number;
