@@ -37,6 +37,7 @@ interface PostProps {
       is_verified: boolean;
       role: string;
       username: string | null;
+      universities?: { name: string } | null;
     } | null;
   };
   onDelete?: (id: string) => void;
