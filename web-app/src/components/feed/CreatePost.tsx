@@ -57,7 +57,10 @@ export default function CreatePost() {
           .from('campus-media')
           .upload(filePath, image);
 
-        if (uploadError) throw uploadError;
+        if (uploadError) {
+          alert(`Image upload failed: ${uploadError.message}`);
+          throw uploadError;
+        }
 
         const { data: { publicUrl } } = supabase.storage
           .from('campus-media')
@@ -74,9 +77,14 @@ export default function CreatePost() {
           media_url: mediaUrl,
           media_type: mediaType,
           visibility: isPublic ? 'PUBLIC' : 'PRIVATE',
+          user_id: profile?.id,
+          university_id: profile?.university_id,
         });
 
-      if (postError) throw postError;
+      if (postError) {
+        alert(`Failed to create post: ${postError.message}`);
+        throw postError;
+      }
 
       // Reset
       setContent('');

@@ -18,17 +18,27 @@ export default function LoginForm() {
     e.preventDefault();
     setIsLoading(true);
     setError(null);
+    console.log("Attempting login...");
 
-    const { error } = await supabase.auth.signInWithPassword({
-      email,
-      password,
-    });
+    try {
+      const { data, error } = await supabase.auth.signInWithPassword({
+        email,
+        password,
+      });
 
-    if (error) {
-      setError(error.message);
+      console.log("Login response:", { data, error });
+
+      if (error) {
+        setError(error.message);
+      } else {
+        console.log("Pushing to dashboard...");
+        router.push('/dashboard');
+      }
+    } catch (err) {
+      console.error("Login exception:", err);
+      setError("An unexpected error occurred.");
+    } finally {
       setIsLoading(false);
-    } else {
-      router.push('/dashboard');
     }
   };
 

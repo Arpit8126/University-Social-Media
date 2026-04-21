@@ -13,6 +13,7 @@ import {
   Lock,
   Star,
   Trash2,
+  Bookmark,
   Send,
   Loader2
 } from 'lucide-react';
@@ -127,108 +128,99 @@ export default function PostCard({ post, onDelete }: PostProps) {
     <motion.div 
       initial={{ opacity: 0, y: 10 }}
       animate={{ opacity: 1, y: 0 }}
-      className="glass-panel p-6 rounded-2xl mb-6 relative hover:border-white/10 transition-colors"
+      className="bg-background border border-white/10 rounded-sm mb-6 max-w-[470px] mx-auto w-full transition-colors"
     >
       {/* Header */}
-      <div className="flex items-start justify-between mb-4">
-        <div className="flex gap-3">
-          {profile?.avatar_url ? (
-            <img src={profile.avatar_url} alt="" className="w-11 h-11 rounded-lg object-cover border border-white/5" />
-          ) : (
-            <div className="w-11 h-11 rounded-lg bg-gradient-to-br from-primary/20 to-blue-500/20 flex items-center justify-center text-primary font-bold text-lg border border-white/5">
-              {profile?.full_name?.[0] || '?'}
-            </div>
-          )}
-          <div>
-            <div className="flex items-center gap-2">
-              <h3 className="font-bold text-foreground">{profile?.full_name || 'Student'}</h3>
-              {profile?.is_verified && (
-                <div className="p-0.5 rounded-full bg-primary/20 text-primary">
-                  <Star className="w-3 h-3 fill-current" />
+      <div className="flex items-center justify-between p-3">
+        <div className="flex items-center gap-3">
+          <div className="w-8 h-8 rounded-full overflow-hidden bg-gradient-to-tr from-yellow-400 to-purple-500 p-[2px] cursor-pointer">
+            <div className="w-full h-full rounded-full bg-background overflow-hidden border border-background">
+              {profile?.avatar_url ? (
+                <img src={profile.avatar_url} alt="" className="w-full h-full object-cover" />
+              ) : (
+                <div className="w-full h-full bg-gradient-to-br from-primary/20 to-blue-500/20 flex items-center justify-center text-primary font-bold text-xs">
+                  {profile?.full_name?.[0] || '?'}
                 </div>
               )}
-              <span className="text-[10px] font-black uppercase tracking-widest text-primary bg-primary/5 px-2 py-0.5 rounded-full border border-primary/20">
-                {profile?.role || 'Student'}
-              </span>
             </div>
-            <div className="flex items-center gap-2 text-xs text-muted-foreground mt-0.5">
-              {profile?.username && <span>@{profile.username}</span>}
-              {profile?.username && <span className="w-1 h-1 bg-white/20 rounded-full" />}
-              <span>{timeAgo}</span>
-              <span className="w-1 h-1 bg-white/20 rounded-full" />
-              <div className="flex items-center gap-1 uppercase tracking-tighter font-bold">
-                {post.visibility === 'PUBLIC' ? <Globe className="w-3 h-3" /> : <Lock className="w-3 h-3" />}
-                {post.visibility}
-              </div>
+          </div>
+          <div className="flex flex-col">
+            <div className="flex items-center gap-1">
+              <h3 className="font-semibold text-sm hover:text-muted-foreground cursor-pointer">{profile?.username || profile?.full_name || 'Student'}</h3>
+              {profile?.is_verified && <Star className="w-3 h-3 text-blue-500 fill-current" />}
+              <span className="text-muted-foreground mx-1 text-xs">•</span>
+              <span className="text-xs text-muted-foreground">{timeAgo.replace('about ', '')}</span>
             </div>
+            <span className="text-[10px] text-muted-foreground">{profile?.universities?.name || 'University'}</span>
           </div>
         </div>
         <div className="relative">
-          <button 
-            onClick={() => setShowMenu(!showMenu)}
-            className="p-2 rounded-lg hover:bg-white/5 text-muted-foreground transition-all"
-          >
+          <button onClick={() => setShowMenu(!showMenu)} className="p-2 hover:opacity-50 transition-all">
             <MoreVertical className="w-5 h-5" />
           </button>
           {showMenu && isOwner && (
-            <div className="absolute right-0 top-10 bg-background border border-white/10 rounded-xl shadow-xl p-2 z-10 min-w-[140px]">
-              <button 
-                onClick={handleDelete}
-                className="flex items-center gap-2 w-full px-3 py-2 text-sm text-red-500 hover:bg-red-500/10 rounded-lg transition-all"
-              >
-                <Trash2 className="w-4 h-4" /> Delete Post
+            <div className="absolute right-0 top-10 bg-[#262626] border border-white/10 rounded-xl shadow-xl w-32 z-10 overflow-hidden">
+              <button onClick={handleDelete} className="flex items-center gap-2 w-full px-4 py-3 text-sm text-red-500 hover:bg-white/5 transition-all font-bold">
+                Delete
               </button>
             </div>
           )}
         </div>
       </div>
 
-      {/* Content */}
-      <div className="space-y-4">
-        <p className="text-foreground/90 leading-relaxed whitespace-pre-wrap">
-          {post.content}
-        </p>
-
-        {post.media_url && (
-          <div className="rounded-xl overflow-hidden bg-black/20 border border-white/5">
-            {post.media_type === 'video' ? (
-              <video 
-                src={post.media_url} 
-                controls 
-                className="w-full h-auto max-h-[500px] object-contain"
-              />
-            ) : (
-              <img 
-                src={post.media_url} 
-                alt="Post media" 
-                className="w-full h-auto max-h-[500px] object-contain"
-              />
-            )}
-          </div>
+      {/* Content / Media */}
+      <div className="w-full relative bg-[#000] flex items-center justify-center min-h-[300px] border-y border-white/5">
+        {post.media_url ? (
+           post.media_type === 'video' ? (
+             <video src={post.media_url} controls className="w-full max-h-[600px] object-cover" />
+           ) : (
+             <img onDoubleClick={handleLike} src={post.media_url} alt="Post media" className="w-full max-h-[600px] object-contain" />
+           )
+        ) : (
+           <div onDoubleClick={handleLike} className="w-full p-8 flex items-center justify-center bg-gradient-to-br from-white/5 to-white/10 min-h-[300px]">
+             <p className="text-lg md:text-xl font-medium text-center">{post.content}</p>
+           </div>
         )}
       </div>
 
-      {/* Engagement Bar */}
-      <div className="flex items-center gap-6 mt-6 pt-4 border-t border-white/5">
-        <button 
-          onClick={handleLike}
-          className={`flex items-center gap-2 transition-colors group ${liked ? 'text-red-500' : 'text-muted-foreground hover:text-red-500'}`}
-        >
-          <Heart className={`w-5 h-5 group-hover:scale-110 transition-transform ${liked ? 'fill-current' : ''}`} />
-          <span className="text-sm font-medium">{likesCount > 0 ? likesCount : 'Like'}</span>
-        </button>
-        <button 
-          onClick={handleToggleComments}
-          className="flex items-center gap-2 text-muted-foreground hover:text-primary transition-colors group"
-        >
-          <MessageCircle className={`w-5 h-5 group-hover:scale-110 transition-transform ${showComments ? 'text-primary' : ''}`} />
-          <span className="text-sm font-medium">{commentsCount > 0 ? commentsCount : 'Comment'}</span>
-        </button>
-        <div className="flex-1" />
-        <button className="flex items-center gap-2 text-muted-foreground hover:text-foreground transition-colors group">
-          <Share2 className="w-5 h-5 group-hover:scale-110 transition-transform" />
-          <span className="text-sm font-medium">Share</span>
-        </button>
+      {/* Action Bar */}
+      <div className="p-3">
+        <div className="flex items-center justify-between mb-3">
+          <div className="flex items-center gap-4">
+            <button onClick={handleLike} className="hover:opacity-50 transition-all group">
+              <Heart className={`w-6 h-6 ${liked ? 'fill-red-500 text-red-500' : 'text-foreground'}`} />
+            </button>
+            <button onClick={handleToggleComments} className="hover:opacity-50 transition-all">
+              <MessageCircle className="w-6 h-6 -scale-x-100" />
+            </button>
+            <button className="hover:opacity-50 transition-all">
+              <Send className="w-6 h-6" />
+            </button>
+          </div>
+          <button className="hover:opacity-50 transition-all">
+            <Bookmark className="w-6 h-6" />
+          </button>
+        </div>
+
+        {/* Likes Count */}
+        <div className="font-semibold text-sm mb-1">
+          {likesCount} {likesCount === 1 ? 'like' : 'likes'}
+        </div>
+
+        {/* Caption */}
+        {post.media_url && post.content && (
+          <div className="text-sm mb-1">
+            <span className="font-semibold mr-2">{profile?.username || profile?.full_name || 'Student'}</span>
+            <span className="whitespace-pre-wrap">{post.content}</span>
+          </div>
+        )}
+        
+        {/* Comments Link */}
+        {commentsCount > 0 && !showComments && (
+          <button onClick={handleToggleComments} className="text-sm text-muted-foreground hover:text-foreground mb-1">
+            View all {commentsCount} comments
+          </button>
+        )}
       </div>
 
       {/* Comments Section */}
@@ -238,57 +230,42 @@ export default function PostCard({ post, onDelete }: PostProps) {
             initial={{ opacity: 0, height: 0 }}
             animate={{ opacity: 1, height: 'auto' }}
             exit={{ opacity: 0, height: 0 }}
-            className="mt-4 pt-4 border-t border-white/5 space-y-4"
+            className="px-3 pb-3 space-y-2"
           >
             {isLoadingComments ? (
-              <div className="flex justify-center py-4">
-                <Loader2 className="w-5 h-5 animate-spin text-primary" />
+              <div className="flex justify-center py-2">
+                <Loader2 className="w-4 h-4 animate-spin text-primary" />
               </div>
             ) : (
               <>
                 {comments.map((comment) => (
-                  <div key={comment.id} className="flex gap-3">
-                    <div className="w-8 h-8 rounded-lg bg-white/5 flex items-center justify-center text-xs font-bold border border-white/5 shrink-0">
-                      {(comment.profiles?.full_name?.[0]) || '?'}
-                    </div>
-                    <div className="flex-1">
-                      <div className="flex items-center gap-2">
-                        <span className="text-sm font-bold">{comment.profiles?.full_name || 'Student'}</span>
-                        <span className="text-[10px] text-muted-foreground">
-                          {formatDistanceToNow(new Date(comment.created_at), { addSuffix: true })}
-                        </span>
-                      </div>
-                      <p className="text-sm text-foreground/80 mt-0.5">{comment.content}</p>
-                    </div>
+                  <div key={comment.id} className="text-sm flex gap-2">
+                    <span className="font-semibold shrink-0 cursor-pointer">{comment.profiles?.username || comment.profiles?.full_name || 'Student'}</span>
+                    <span className="text-foreground">{comment.content}</span>
                   </div>
                 ))}
-                {comments.length === 0 && (
-                  <p className="text-sm text-muted-foreground text-center italic py-2">No comments yet. Be the first!</p>
-                )}
               </>
             )}
-
-            {/* Add Comment */}
-            <div className="flex items-center gap-3">
-              <input
-                type="text"
-                placeholder="Write a comment..."
-                value={commentText}
-                onChange={(e) => setCommentText(e.target.value)}
-                onKeyDown={(e) => e.key === 'Enter' && handleAddComment()}
-                className="flex-1 bg-white/5 border border-white/10 rounded-xl py-2 px-4 text-sm outline-none focus:ring-2 focus:ring-primary/50 transition-all"
-              />
-              <button
-                onClick={handleAddComment}
-                disabled={!commentText.trim()}
-                className="p-2 rounded-xl bg-primary text-white disabled:opacity-50 transition-all"
-              >
-                <Send className="w-4 h-4" />
-              </button>
-            </div>
           </motion.div>
         )}
       </AnimatePresence>
+
+      {/* Add Comment */}
+      <div className="px-3 py-2 border-t border-white/10 flex items-center gap-3">
+        <input
+          type="text"
+          placeholder="Add a comment..."
+          value={commentText}
+          onChange={(e) => setCommentText(e.target.value)}
+          onKeyDown={(e) => e.key === 'Enter' && handleAddComment()}
+          className="flex-1 bg-transparent border-none text-sm outline-none placeholder:text-muted-foreground"
+        />
+        {commentText.trim() && (
+          <button onClick={handleAddComment} className="text-blue-500 font-semibold text-sm hover:text-blue-400">
+            Post
+          </button>
+        )}
+      </div>
     </motion.div>
   );
 }

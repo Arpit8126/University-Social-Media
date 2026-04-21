@@ -27,7 +27,7 @@ const categories = [
 ];
 
 export default function ResourcesPage() {
-  const { user } = useAuth();
+  const { user, profile } = useAuth();
   const [activeCategory, setActiveCategory] = useState('ALL');
   const [resources, setResources] = useState<Resource[]>([]);
   const [isLoading, setIsLoading] = useState(true);
@@ -86,9 +86,16 @@ export default function ResourcesPage() {
       file_name: uploadFile.name,
       file_size: `${fileSizeMB} MB`,
       uploaded_by: user.id,
+      university_id: profile?.university_id,
       subject: uploadData.subject.trim() || null,
       semester: uploadData.semester.trim() || null,
     });
+
+    if (insertError) {
+      alert(`Failed to save resource: ${insertError.message}`);
+      setIsUploading(false);
+      return;
+    }
 
     if (!insertError) {
       setShowUpload(false);

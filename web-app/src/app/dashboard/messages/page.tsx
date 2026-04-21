@@ -46,7 +46,7 @@ interface MessageItem {
 }
 
 export default function MessagesPage() {
-  const { user } = useAuth();
+  const { user, profile } = useAuth();
   const [conversations, setConversations] = useState<ConversationItem[]>([]);
   const [activeConvo, setActiveConvo] = useState<ConversationItem | null>(null);
   const [messages, setMessages] = useState<MessageItem[]>([]);
@@ -318,7 +318,7 @@ export default function MessagesPage() {
 
     if (!newConvo) {
       console.error('Failed to create conversation:', createError);
-      alert('Failed to start chat.');
+      alert(`Failed to start chat: ${createError?.message}`);
       return;
     }
 
