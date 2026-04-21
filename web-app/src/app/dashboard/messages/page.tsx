@@ -310,13 +310,17 @@ export default function MessagesPage() {
     }
 
     // Create new conversation
-    const { data: newConvo } = await supabase
+    const { data: newConvo, error: createError } = await supabase
       .from('conversations')
-      .insert({})
+      .insert({ updated_at: new Date().toISOString() })
       .select()
       .single();
 
-    if (!newConvo) return;
+    if (!newConvo) {
+      console.error('Failed to create conversation:', createError);
+      alert('Failed to start chat.');
+      return;
+    }
 
     await supabase.from('conversation_participants').insert([
       { conversation_id: newConvo.id, user_id: user.id },
